@@ -1,0 +1,140 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,metrics,prometheus,refresh,logfile,bindings,beans,env,ready,loggers,streamsbindings,httptrace
+    base-path: /auth-service/api/v1
+  server:
+    servlet:
+      context-path: /auth-service/api/v1
+  endpoint:
+    refresh:
+      enabled: 'true'
+    health:
+      enabled: 'true'
+      show-details: always
+    metrics:
+      enabled: 'true'
+    prometheus:
+      enabled: 'true'
+    info:
+      enabled: 'true'
+  metrics:
+    export:
+      prometheus:
+        enabled: 'true'
+    tags:
+      application: auth-service
+      instance: dev
+  health:
+    circuitbreakers:
+      enabled: 'true'
+springdoc:
+  swagger-ui:
+    operationsSorter: method
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
+spring:
+  main:
+    allow-bean-definition-overriding: 'true'
+  cloud:
+    kubernets:
+
+      enabled: 'false'
+      config:
+        enabled: 'false'
+        enable-api: 'false'
+  logging:
+    level:
+      org:
+        springframework:
+          web: INFO
+  application:
+    name: auth-service
+  security:
+    oauth2:
+      client:
+        registration:
+          linkedIn:
+            client-authentication-method: post
+            clientId: 78hqeq643qqq55
+            clientSecret: tQp31GOejVwwD1hq
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            authorization-grant-type: authorization_code
+            scope:
+              - r_emailaddress
+              - r_liteprofile
+          twitter:
+            clientId: eDlTa1pUTWZyRkhER204OTdsRjE6MTpjaQ
+            clientSecret: MpNK7TSnB5Nbblc-kOSl0WP0ixSv-Y6HISROi2Z3it1Miw9WRY
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            authorization-grant-type: authorization_code
+            scope:
+              - tweet.read
+          facebook:
+            clientId: 1497927360573337
+            clientSecret: 0d8be806f3400e58bc91f56e3263dd2d
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - public_profile
+          google:
+            clientId: 1012424691308-2n84me2dh8ph005jr8ve5d9njht2nnfp.apps.googleusercontent.com
+            clientSecret: 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
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+          github:
+            clientId: 047e918a6f8802c10418
+            clientSecret: dc03bd52fc6bcdd6faeca7a3a171a5984f80f794
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user
+              - profile.email
+              - read:user
+        provider:
+          twitter:
+            authorizationUri: https://twitter.com/i/oauth2/authorize
+            tokenUri: https://api.twitter.com/2/oauth2/token
+          facebook:
+            authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+            tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+            userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,name,email
+          linkedIn:
+            authorizationUri: https://www.linkedin.com/oauth/v2/authorization
+            tokenUri: https://www.linkedin.com/oauth/v2/accessToken
+            userInfoUri: https://api.linkedin.com/v2/me
+
+  data:
+    mongodb:
+      uri: ${MONGO_URL:mongodb://localhost:27018}
+      database: user-service
+server:
+  port: '8816'
+  servlet:
+    context-path: /auth-service/api/v1
+logging:
+  level:
+    com:
+      mypractice:
+        estudy: ${E_STUDY_LOG_LEVEL:DEBUG}
+    root: ${ROOT_LOG_LEVEL:INFO}
+    request_trace: ${REQUEST_TRACE_LOG_LEVEL:ERROR}
+app:
+  authDto:
+    tokenSecret: dffffffffffffffffsgosdfighodfsyg7y6w78r2756rwe67qtr67eqtwr96twqe67rt78we6qtr67wer8twer67tw7e6r67werd67wer67wter6twe6rtr
+    tokenExpiration: 864000000
+  cors:
+    allowedOrigins: http://localhost:4200,http://localhost:4200,http://localhost:8816/auth-service/api/v1/
+  oauth2Dto:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
+      - http://localhost:4200/oauth2/redirect
+      - http://localhost:4200/auth/login
+# jaeger
+opentracing:
+  jaeger:
+    http-sender:
+      url: http://localhost:14268/api/traces

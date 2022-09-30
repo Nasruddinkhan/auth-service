@@ -1,0 +1,11 @@
+metadata:
+  anotations:
+    swagger: "http://${host}/auth-service/api/swagger-ui/index.html"
+    prometheus.io/path: /actuator/prometheus
+spec:
+  type: "ClusterIP"
+  ports:
+    - name: http
+      port: 9010
+      protocal: TCP
+      targetPort: 9010

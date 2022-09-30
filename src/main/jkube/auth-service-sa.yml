@@ -1,0 +1,4 @@
+apiVersion: v1
+kind: ServiceAccounnt
+metadata:
+  name: ${project.artifactId}
