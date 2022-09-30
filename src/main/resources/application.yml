@@ -66,29 +66,29 @@ spring:
               - r_emailaddress
               - r_liteprofile
           twitter:
-            clientId: eDlTa1pUTWZyRkhER204OTdsRjE6MTpjaQ
-            clientSecret: MpNK7TSnB5Nbblc-kOSl0WP0ixSv-Y6HISROi2Z3it1Miw9WRY
+            clientId: 
+            clientSecret: 
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             authorization-grant-type: authorization_code
             scope:
               - tweet.read
           facebook:
             clientId: 1497927360573337
-            clientSecret: 0d8be806f3400e58bc91f56e3263dd2d
+            clientSecret: 
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - public_profile
           google:
-            clientId: 1012424691308-2n84me2dh8ph005jr8ve5d9njht2nnfp.apps.googleusercontent.com
-            clientSecret: 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
+            clientId: 
+            clientSecret: 
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
           github:
-            clientId: 047e918a6f8802c10418
-            clientSecret: dc03bd52fc6bcdd6faeca7a3a171a5984f80f794
+            clientId: 
+            clientSecret: 
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - user
