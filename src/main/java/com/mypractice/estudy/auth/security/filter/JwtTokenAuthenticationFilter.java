@@ -29,7 +29,6 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             var jwt = getJwtFromRequest(request);
-
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 var userId = tokenProvider.getUserIdFromToken(jwt);
                 var userDetails = customUserDetailsService.loadUserById(userId);

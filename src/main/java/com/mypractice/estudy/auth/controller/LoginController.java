@@ -22,15 +22,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/user")
 @Slf4j
-public class LoginController {
-
-    private final AuthenticationManager authenticationManager;
-    private final LoginService loginService;
-    private final JwtTokenProvider jwtTokenProvider;
+public record LoginController(AuthenticationManager authenticationManager,
+                              LoginService loginService,
+                              JwtTokenProvider jwtTokenProvider) {
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponseDto> registerUser(@RequestBody SignUpRequestDto signUpRequest) {
@@ -54,7 +51,7 @@ public class LoginController {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        var token =jwtTokenProvider.createToken(authentication);
+        var token = jwtTokenProvider.createToken(authentication);
         return ResponseEntity.ok(new LoginResponseDto(token, "Bearer"));
     }
 

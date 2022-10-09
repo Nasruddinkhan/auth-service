@@ -16,11 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Service
-@AllArgsConstructor
 @Transactional
-public class CustomUserDetailsService implements UserDetailsService {
-    private final UserRepository userRepository;
-
+public record CustomUserDetailsService(
+        UserRepository userRepository) implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String email)
             throws UsernameNotFoundException {

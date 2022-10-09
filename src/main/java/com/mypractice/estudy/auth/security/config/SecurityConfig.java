@@ -12,6 +12,7 @@ import com.mypractice.estudy.auth.util.ApplicationProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,8 +20,20 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
+import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -37,6 +50,7 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -58,6 +72,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
                 .oauth2Login()
+                //.clientRegistrationRepository(clientRegistrationRepository())
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorize")
                 .authorizationRequestRepository(httpCookiesRequestRepository())
@@ -76,6 +91,23 @@ public class SecurityConfig {
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+//    @Bean
+//    public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient(){
+//        DefaultAuthorizationCodeTokenResponseClient accessTokenResponseClient =
+//                new DefaultAuthorizationCodeTokenResponseClient();
+//        accessTokenResponseClient.setRequestEntityConverter(new CustomRequestEntityConverter());
+//
+//        OAuth2AccessTokenResponseHttpMessageConverter tokenResponseHttpMessageConverter =
+//                new OAuth2AccessTokenResponseHttpMessageConverter();
+//        tokenResponseHttpMessageConverter.setTokenResponseConverter(new CustomTokenResponseConverter());
+//
+//        RestTemplate restTemplate = new RestTemplate(Arrays.asList(
+//                new FormHttpMessageConverter(), tokenResponseHttpMessageConverter));
+//        restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
+//
+//        accessTokenResponseClient.setRestOperations(restTemplate);
+//        return accessTokenResponseClient;
+//    }
     @Bean
     public HttpCookiesRequestRepository httpCookiesRequestRepository() {
         return new HttpCookiesRequestRepository();
